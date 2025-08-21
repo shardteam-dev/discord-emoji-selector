@@ -2,9 +2,6 @@
 
 A lightweight and powerful Discord-style emoji picker for React. Made by the HokkiAI Discord bot team.
 
-> [!CAUTION]
-> This needs tailwindcss to work.
-
 ## Installation
 
 ```bash

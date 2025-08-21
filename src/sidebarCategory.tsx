@@ -67,7 +67,7 @@ export default function SidebarCategory({
     <button
       onClick={() => {
         const elem = picker.current;
-        if (searchValue.length > 0) {
+        if ((searchValue || "").length > 0) {
           window["emojipicker-" + id].setSearchValue("");
           setTimeout(() => {
             elem.querySelector(".HOKKIEMOJIPICKER-emojidisplay").scrollTop =

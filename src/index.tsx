@@ -8,6 +8,7 @@ import SidebarCategory from "./sidebarCategory";
 import SkinSelector from "./skinselector";
 import render from "./render";
 import { cn } from "./cn";
+import "./styles.css"
 
 export default function EmojiSelector({
   categories = {},
