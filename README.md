@@ -91,4 +91,18 @@ Whether to show the tone selector. Defaults to `true`.
 
 Custom class name for the emoji picker.
 
-### `
+### `onEmojiMouseEnter` & `onEmojiMouseLeave`
+
+Functions called when the mouse enters or leaves an emoji.
+
+### `showFooter`
+
+Whether to show the footer.
+
+### `showNav`
+
+Whether to show the navigation bar.
+
+### `showSidebar`
+
+Whether to show the sidebar.

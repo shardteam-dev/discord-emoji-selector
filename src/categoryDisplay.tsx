@@ -7,11 +7,15 @@ import { useSearchValue, useSkin } from "./hooks";
 function Emoji({
   pickerId,
   emoji,
+  onEmojiMouseEnter,
+  onEmojiMouseLeave,
   onEmojiSelect,
   key,
 }: {
   pickerId: string;
   emoji: IEmoji;
+  onEmojiMouseEnter: (emoji: IEmoji) => void;
+  onEmojiMouseLeave: (emoji: IEmoji) => void;
   onEmojiSelect: (emoji: IEmoji) => void;
   key: string;
 }) {
@@ -22,6 +26,10 @@ function Emoji({
         window["emojipicker-" + pickerId].changeSearchbarPlaceholder(
           emoji.name
         );
+        onEmojiMouseEnter(emoji);
+      }}
+      onMouseLeave={() => {
+        onEmojiMouseLeave(emoji);
       }}
       onClick={() => {
         onEmojiSelect(emoji);
@@ -37,11 +45,15 @@ function SkinEmoji({
   pickerId,
   emoji,
   onEmojiSelect,
+  onEmojiMouseEnter,
+  onEmojiMouseLeave,
   key,
 }: {
   pickerId: string;
   emoji: IEmoji;
   onEmojiSelect: (emoji: IEmoji) => void;
+  onEmojiMouseEnter: (emoji: IEmoji) => void;
+  onEmojiMouseLeave: (emoji: IEmoji) => void;
   key: string;
 }) {
   const skin = useSkin({ pickerId });
@@ -69,6 +81,10 @@ function SkinEmoji({
         window["emojipicker-" + pickerId].changeSearchbarPlaceholder(
           emoji.name
         );
+        onEmojiMouseEnter(fakeEmoji);
+      }}
+      onMouseLeave={() => {
+        onEmojiMouseLeave(fakeEmoji);
       }}
       onClick={() => {
         onEmojiSelect(fakeEmoji);
@@ -86,12 +102,16 @@ export default function CategoryDisplay({
   categoryInfo,
   isToneSelectorEnabled,
   onEmojiSelect,
+  onEmojiMouseEnter,
+  onEmojiMouseLeave,
   pickerId,
 }: {
   category: ICategory;
   categoryInfo: ICategoryInfo;
   isToneSelectorEnabled: boolean;
   onEmojiSelect: (emoji: IEmoji) => void;
+  onEmojiMouseEnter: (emoji: IEmoji) => void;
+  onEmojiMouseLeave: (emoji: IEmoji) => void;
   pickerId: string;
 }) {
   const [isOpen, setIsOpen] = useState(true);
@@ -122,6 +142,8 @@ export default function CategoryDisplay({
               <SkinEmoji
                 onEmojiSelect={onEmojiSelect}
                 pickerId={pickerId}
+                onEmojiMouseEnter={onEmojiMouseEnter}
+                onEmojiMouseLeave={onEmojiMouseLeave}
                 emoji={emoji}
                 key={emoji.name}
               />
@@ -132,6 +154,8 @@ export default function CategoryDisplay({
               onEmojiSelect={onEmojiSelect}
               pickerId={pickerId}
               emoji={emoji}
+              onEmojiMouseEnter={onEmojiMouseEnter}
+              onEmojiMouseLeave={onEmojiMouseLeave}
               key={emoji.name}
             />
           );
@@ -177,6 +201,8 @@ export default function CategoryDisplay({
                   onEmojiSelect={onEmojiSelect}
                   pickerId={pickerId}
                   emoji={emoji}
+                  onEmojiMouseEnter={onEmojiMouseEnter}
+                  onEmojiMouseLeave={onEmojiMouseLeave}
                   key={emoji.name}
                 />
               );
@@ -185,6 +211,8 @@ export default function CategoryDisplay({
               <Emoji
                 onEmojiSelect={onEmojiSelect}
                 pickerId={pickerId}
+                onEmojiMouseEnter={onEmojiMouseEnter}
+                onEmojiMouseLeave={onEmojiMouseLeave}
                 emoji={emoji}
                 key={emoji.name}
               />

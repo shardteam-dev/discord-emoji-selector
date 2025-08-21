@@ -14,6 +14,11 @@ export default function EmojiSelector({
   customEmojis = {},
   className = "",
   onEmojiSelect = () => {},
+  onEmojiMouseEnter = () => {},
+  onEmojiMouseLeave = () => {},
+  showFooter = true,
+  showNav = true,
+  showSidebar = true,
   toneSelector = true,
   searchPlaceholder = "Find the perfect emoji",
   height = 500,
@@ -40,6 +45,11 @@ export default function EmojiSelector({
   searchPlaceholder?: string;
   height?: number;
   onEmojiSelect?: (emoji: IEmoji) => void;
+  onEmojiMouseEnter?: (emoji: IEmoji) => void;
+  onEmojiMouseLeave?: (emoji: IEmoji) => void;
+  showFooter?: boolean;
+  showNav?: boolean;
+  showSidebar?: boolean;
   width?: number;
 }) {
   // NOTE: No usestates should be used here as it would cause a BUNCH of lag.
@@ -280,7 +290,7 @@ export default function EmojiSelector({
     ...rawemojis,
   ];
 
-  const navHeight = Math.floor(height / 7);
+  const navHeight = showNav ? Math.floor(height / 7) : 0;
   const id = Math.random().toString(36).substring(2, 15);
   const picker = useRef<HTMLDivElement>(null);
   console.log(id);
@@ -303,39 +313,44 @@ export default function EmojiSelector({
         minWidth: width,
       }}
     >
-      <div
-        className="HOKKIEMOJIPICKER-nav border-[#363639] flex items-center gap-4 border-b-1 p-3 relative z-50"
-        style={{
-          height: navHeight,
-          maxHeight: navHeight,
-          minHeight: navHeight,
-        }}
-      >
-        <SearchBar id={id} searchPlaceholder={searchPlaceholder} />
-        {toneSelector && <SkinSelector id={id} />}
-      </div>
-      <div className="flex h-full">
-        <div className="HOKKIEMOJIPICKER-sidebar bg-[#070709]  flex p-2 gap-1 flex-col">
-          {Object.keys(categoryData)
-            .filter((categoryName) => categoryData[categoryName] !== false)
-            .map((categoryName) => {
-              const category = categoryData[categoryName];
-              if (category === true) {
-                return <div className="w-full h-0 border-b-1 my-2" />;
-              }
-              const icon = category.icon;
-              return (
-                <SidebarCategory
-                  id={id}
-                  key={categoryName}
-                  picker={picker}
-                  categoryName={categoryName}
-                  icon={icon}
-                />
-              );
-            })}
-          <div className="h-24" />
+      {showNav && (
+        <div
+          className="HOKKIEMOJIPICKER-nav border-[#363639] flex items-center gap-4 border-b-1 p-3 relative z-50"
+          style={{
+            height: navHeight,
+            maxHeight: navHeight,
+            minHeight: navHeight,
+          }}
+        >
+          <SearchBar id={id} searchPlaceholder={searchPlaceholder} />
+          {toneSelector && <SkinSelector id={id} />}
         </div>
+      )}
+      <div className="flex h-full">
+        {showSidebar && (
+          <div className="HOKKIEMOJIPICKER-sidebar bg-[#070709]  flex p-2 gap-1 flex-col">
+            {Object.keys(categoryData)
+              .filter((categoryName) => categoryData[categoryName] !== false)
+              .map((categoryName) => {
+                const category = categoryData[categoryName];
+                if (category === true) {
+                  return <div className="w-full h-0 border-b-1 my-2" />;
+                }
+                const icon = category.icon;
+                return (
+                  <SidebarCategory
+                    id={id}
+                    key={categoryName}
+                    picker={picker}
+                    categoryName={categoryName}
+                    icon={icon}
+                  />
+                );
+              })}
+            <div className="h-24" />
+          </div>
+        )}
+
         <div
           style={{
             height: height - navHeight,
@@ -355,6 +370,8 @@ export default function EmojiSelector({
               const categoryInfo: ICategoryInfo = categoryData[category.name];
               return (
                 <CategoryDisplay
+                  onEmojiMouseEnter={onEmojiMouseEnter}
+                  onEmojiMouseLeave={onEmojiMouseLeave}
                   isToneSelectorEnabled={toneSelector}
                   onEmojiSelect={(a) => {
                     onEmojiSelect(a);
@@ -381,10 +398,12 @@ export default function EmojiSelector({
               );
             })}
           </div>
-          <Footer
-            id={id}
-            firstEmoji={(emojis[0] ? emojis[0] : emojis[1]).emojis[0]}
-          />
+          {showFooter && (
+            <Footer
+              id={id}
+              firstEmoji={(emojis[0] ? emojis[0] : emojis[1]).emojis[0]}
+            />
+          )}
         </div>
       </div>
     </div>
