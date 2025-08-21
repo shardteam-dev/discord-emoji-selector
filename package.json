@@ -1,20 +1,17 @@
 {
   "name": "@hokkiai/discord-emoji-selector",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A lightweight & powerful discord-style emoji picker",
-  "keywords": [
-    "emoji-picker",
-    "react",
-    "emoji",
-    "discord",
-    "picker"
-  ],
-  "license": "ISC",
-  "author": "pico190_",
   "type": "module",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "files": [
     "dist"
   ],
