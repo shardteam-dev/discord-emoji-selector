@@ -84,11 +84,13 @@ function SkinEmoji({
 export default function CategoryDisplay({
   category,
   categoryInfo,
+  isToneSelectorEnabled,
   onEmojiSelect,
   pickerId,
 }: {
   category: ICategory;
   categoryInfo: ICategoryInfo;
+  isToneSelectorEnabled: boolean;
   onEmojiSelect: (emoji: IEmoji) => void;
   pickerId: string;
 }) {
@@ -169,7 +171,7 @@ export default function CategoryDisplay({
       {isOpen && (
         <div className="flex flex-wrap gap-y-0.5">
           {category.emojis.map((emoji: IEmoji) => {
-            if (emoji.hasTone && !emoji.preRendered) {
+            if (emoji.hasTone && !emoji.preRendered && isToneSelectorEnabled) {
               return (
                 <SkinEmoji
                   onEmojiSelect={onEmojiSelect}

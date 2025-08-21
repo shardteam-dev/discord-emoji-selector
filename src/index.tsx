@@ -12,6 +12,7 @@ export default function EmojiSelector({
   categories = {},
   customEmojis = {},
   onEmojiSelect = () => {},
+  toneSelector = true,
   searchPlaceholder = "Find the perfect emoji",
   height = 500,
   width = 520,
@@ -27,6 +28,7 @@ export default function EmojiSelector({
     symbols?: ICategoryInfo;
     flags?: ICategoryInfo;
   };
+  toneSelector?: boolean;
   customEmojis?: {
     serverName?: string;
     serverIconURL?: string;
@@ -296,7 +298,7 @@ export default function EmojiSelector({
       }}
     >
       <div
-        className="HOKKIEMOJIPICKER-nav border-[#363639] flex items-center gap-4 pr-4 border-b-1 p-3 relative z-50"
+        className="HOKKIEMOJIPICKER-nav border-[#363639] flex items-center gap-4 border-b-1 p-3 relative z-50"
         style={{
           height: navHeight,
           maxHeight: navHeight,
@@ -304,7 +306,7 @@ export default function EmojiSelector({
         }}
       >
         <SearchBar id={id} searchPlaceholder={searchPlaceholder} />
-        <SkinSelector id={id} />
+        {toneSelector && <SkinSelector id={id} />}
       </div>
       <div className="flex h-full">
         <div className="HOKKIEMOJIPICKER-sidebar bg-[#070709]  flex p-2 gap-1 flex-col">
@@ -347,6 +349,7 @@ export default function EmojiSelector({
               const categoryInfo: ICategoryInfo = categoryData[category.name];
               return (
                 <CategoryDisplay
+                  isToneSelectorEnabled={toneSelector}
                   onEmojiSelect={(a) => {
                     onEmojiSelect(a);
                     if (a.char.startsWith("<")) return;

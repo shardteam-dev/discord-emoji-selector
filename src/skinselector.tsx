@@ -14,7 +14,7 @@ export default function SkinSelector({ id }: { id: string }) {
     window["emojipicker-" + id].skin = selectedTone;
   }, [selectedTone]);
   return (
-    <div className="relative">
+    <div className="relative mr-1">
       <div
         className="HOKKIEMOJIPICKER-skinselector-trigger opacity-75 hover:opacity-100 cursor-pointer *:size-7 *:min-w-7"
         onClick={() => {
