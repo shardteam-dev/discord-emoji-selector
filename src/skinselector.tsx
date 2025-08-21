@@ -27,7 +27,7 @@ export default function SkinSelector({ id }: { id: string }) {
           opacity: open ? 1 : 0,
           pointerEvents: open ? "all" : "none",
         }}
-        className="absolute flex transition-all flex-col cursor-pointer top-full translate-y-2 overflow-hidden left-0 rounded-sm border-1 bg-neutral-900"
+        className="absolute flex transition-all flex-col cursor-pointer top-full translate-y-2 overflow-hidden -left-2 rounded-sm border-1 bg-neutral-900"
       >
         {skins
           .filter((a) => a !== skins[selectedTone])

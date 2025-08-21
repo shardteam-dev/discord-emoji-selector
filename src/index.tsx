@@ -7,6 +7,7 @@ import Footer from "./footer";
 import SidebarCategory from "./sidebarCategory";
 import SkinSelector from "./skinselector";
 import render from "./render";
+import "./styles.css";
 import { cn } from "./cn";
 
 export default function EmojiSelector({
@@ -296,114 +297,116 @@ export default function EmojiSelector({
   console.log(id);
 
   return (
-    <div
-      ref={picker}
-      id={"emojipicker-" + id}
-      className={cn(
-        "HOKKIEMOJIPICKER-emojiSelector overflow-hidden flex flex-col rounded-xl border-1 bg-[#131416] border-[#363639]/10",
-        className
-      )}
-      style={{
-        height: height,
-        maxHeight: height,
-        minHeight: height,
+    <div className="HOKKIEMOJIPICKER-emojiContainer">
+      <div
+        ref={picker}
+        id={"emojipicker-" + id}
+        className={cn(
+          "HOKKIEMOJIPICKER-emojiSelector overflow-hidden flex flex-col rounded-xl border-1 bg-[#131416] border-[#363639]/10",
+          className
+        )}
+        style={{
+          height: height,
+          maxHeight: height,
+          minHeight: height,
 
-        width: width,
-        maxWidth: width,
-        minWidth: width,
-      }}
-    >
-      {showNav && (
-        <div
-          className="HOKKIEMOJIPICKER-nav border-[#363639] flex items-center gap-4 border-b-1 p-3 relative z-50"
-          style={{
-            height: navHeight,
-            maxHeight: navHeight,
-            minHeight: navHeight,
-          }}
-        >
-          <SearchBar id={id} searchPlaceholder={searchPlaceholder} />
-          {toneSelector && <SkinSelector id={id} />}
-        </div>
-      )}
-      <div className="flex h-full">
-        {showSidebar && (
-          <div className="HOKKIEMOJIPICKER-sidebar bg-[#070709]  flex p-2 gap-1 flex-col">
-            {Object.keys(categoryData)
-              .filter((categoryName) => categoryData[categoryName] !== false)
-              .map((categoryName) => {
-                const category = categoryData[categoryName];
-                if (category === true) {
-                  return <div className="w-full h-0 border-b-1 my-2" />;
-                }
-                const icon = category.icon;
+          width: width,
+          maxWidth: width,
+          minWidth: width,
+        }}
+      >
+        {showNav && (
+          <div
+            className="HOKKIEMOJIPICKER-nav border-[#363639] flex items-center gap-4 border-b-1 p-3 relative z-50"
+            style={{
+              height: navHeight,
+              maxHeight: navHeight,
+              minHeight: navHeight,
+            }}
+          >
+            <SearchBar id={id} searchPlaceholder={searchPlaceholder} />
+            {toneSelector && <SkinSelector id={id} />}
+          </div>
+        )}
+        <div className="flex h-full">
+          {showSidebar && (
+            <div className="HOKKIEMOJIPICKER-sidebar bg-[#070709]  flex p-2 gap-1 flex-col">
+              {Object.keys(categoryData)
+                .filter((categoryName) => categoryData[categoryName] !== false)
+                .map((categoryName) => {
+                  const category = categoryData[categoryName];
+                  if (category === true) {
+                    return <div className="w-full h-0 border-b-1 my-2" />;
+                  }
+                  const icon = category.icon;
+                  return (
+                    <SidebarCategory
+                      id={id}
+                      key={categoryName}
+                      picker={picker}
+                      categoryName={categoryName}
+                      icon={icon}
+                    />
+                  );
+                })}
+              <div className="h-24" />
+            </div>
+          )}
+
+          <div
+            style={{
+              height: height - navHeight,
+              maxHeight: height - navHeight,
+              minHeight: height - navHeight,
+            }}
+            className="HOKKIEMOJIPICKER-emojidisplaycontainer overflow-hidden flex flex-col w-full"
+          >
+            <div
+              style={{
+                flexBasis: "fit-content",
+              }}
+              className="HOKKIEMOJIPICKER-emojidisplay overflow-y-scroll bg-[#131416] h-full w-full flex flex-wrap px-2 items-start justfy-start justify-self-start gap-y-0.5"
+            >
+              {emojis.map((category: ICategory) => {
+                if (!category) return;
+                const categoryInfo: ICategoryInfo = categoryData[category.name];
                 return (
-                  <SidebarCategory
-                    id={id}
-                    key={categoryName}
-                    picker={picker}
-                    categoryName={categoryName}
-                    icon={icon}
+                  <CategoryDisplay
+                    onEmojiMouseEnter={onEmojiMouseEnter}
+                    onEmojiMouseLeave={onEmojiMouseLeave}
+                    isToneSelectorEnabled={toneSelector}
+                    onEmojiSelect={(a) => {
+                      onEmojiSelect(a);
+                      if (a.char.startsWith("<")) return;
+                      let newRecentlyUsed = JSON.parse(
+                        localStorage.getItem("hokkiemojipicker-recentlyused") ||
+                          "[]"
+                      );
+                      newRecentlyUsed = newRecentlyUsed.filter(
+                        (b: IEmoji) => b.char !== a.char
+                      );
+                      newRecentlyUsed.push(a);
+                      newRecentlyUsed = newRecentlyUsed.slice(0, 20);
+                      localStorage.setItem(
+                        "hokkiemojipicker-recentlyused",
+                        JSON.stringify(newRecentlyUsed)
+                      );
+                    }}
+                    key={category.name}
+                    category={category}
+                    pickerId={id}
+                    categoryInfo={categoryInfo}
                   />
                 );
               })}
-            <div className="h-24" />
+            </div>
+            {showFooter && (
+              <Footer
+                id={id}
+                firstEmoji={(emojis[0] ? emojis[0] : emojis[1]).emojis[0]}
+              />
+            )}
           </div>
-        )}
-
-        <div
-          style={{
-            height: height - navHeight,
-            maxHeight: height - navHeight,
-            minHeight: height - navHeight,
-          }}
-          className="HOKKIEMOJIPICKER-emojidisplaycontainer overflow-hidden flex flex-col w-full"
-        >
-          <div
-            style={{
-              flexBasis: "fit-content",
-            }}
-            className="HOKKIEMOJIPICKER-emojidisplay overflow-y-scroll bg-[#131416] h-full w-full flex flex-wrap px-2 items-start justfy-start justify-self-start gap-y-0.5"
-          >
-            {emojis.map((category: ICategory) => {
-              if (!category) return;
-              const categoryInfo: ICategoryInfo = categoryData[category.name];
-              return (
-                <CategoryDisplay
-                  onEmojiMouseEnter={onEmojiMouseEnter}
-                  onEmojiMouseLeave={onEmojiMouseLeave}
-                  isToneSelectorEnabled={toneSelector}
-                  onEmojiSelect={(a) => {
-                    onEmojiSelect(a);
-                    if (a.char.startsWith("<")) return;
-                    let newRecentlyUsed = JSON.parse(
-                      localStorage.getItem("hokkiemojipicker-recentlyused") ||
-                        "[]"
-                    );
-                    newRecentlyUsed = newRecentlyUsed.filter(
-                      (b: IEmoji) => b.char !== a.char
-                    );
-                    newRecentlyUsed.push(a);
-                    newRecentlyUsed = newRecentlyUsed.slice(0, 20);
-                    localStorage.setItem(
-                      "hokkiemojipicker-recentlyused",
-                      JSON.stringify(newRecentlyUsed)
-                    );
-                  }}
-                  key={category.name}
-                  category={category}
-                  pickerId={id}
-                  categoryInfo={categoryInfo}
-                />
-              );
-            })}
-          </div>
-          {showFooter && (
-            <Footer
-              id={id}
-              firstEmoji={(emojis[0] ? emojis[0] : emojis[1]).emojis[0]}
-            />
-          )}
         </div>
       </div>
     </div>
