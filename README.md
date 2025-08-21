@@ -2,6 +2,9 @@
 
 A lightweight and powerful Discord-style emoji picker for React. Made by the HokkiAI Discord bot team.
 
+> [!CAUTION]
+> This needs tailwindcss to work.
+
 ## Installation
 
 ```bash
@@ -83,3 +86,9 @@ Function called when an emoji is selected. Receives an object with:
 ### `toneSelector`
 
 Whether to show the tone selector. Defaults to `true`.
+
+### `className`
+
+Custom class name for the emoji picker.
+
+### `

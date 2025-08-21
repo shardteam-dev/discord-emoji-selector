@@ -7,10 +7,12 @@ import Footer from "./footer";
 import SidebarCategory from "./sidebarCategory";
 import SkinSelector from "./skinselector";
 import render from "./render";
+import { cn } from "./cn";
 
 export default function EmojiSelector({
   categories = {},
   customEmojis = {},
+  className = "",
   onEmojiSelect = () => {},
   toneSelector = true,
   searchPlaceholder = "Find the perfect emoji",
@@ -29,6 +31,7 @@ export default function EmojiSelector({
     flags?: ICategoryInfo;
   };
   toneSelector?: boolean;
+  className?: string;
   customEmojis?: {
     serverName?: string;
     serverIconURL?: string;
@@ -286,7 +289,10 @@ export default function EmojiSelector({
     <div
       ref={picker}
       id={"emojipicker-" + id}
-      className="emoji-selector overflow-hidden flex flex-col rounded-xl border-1 bg-[#131416] border-[#363639]/10"
+      className={cn(
+        "HOKKIEMOJIPICKER-emojiSelector overflow-hidden flex flex-col rounded-xl border-1 bg-[#131416] border-[#363639]/10",
+        className
+      )}
       style={{
         height: height,
         maxHeight: height,
