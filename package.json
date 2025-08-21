@@ -1,6 +1,6 @@
 {
   "name": "@hokkiai/discord-emoji-selector",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "A lightweight & powerful discord-style emoji picker",
   "type": "module",
   "main": "dist/index.cjs",
@@ -11,7 +11,8 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    }
+    },
+    "./fix.css": "./dist/index.css"
   },
   "files": [
     "dist"

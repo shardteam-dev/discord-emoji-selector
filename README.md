@@ -12,6 +12,7 @@ npm install @hokkiai/discord-emoji-selector
 
 ```tsx
 import EmojiSelector from "@hokkiai/discord-emoji-selector";
+import "@hokkiai/discord-emoji-selector/fix.css"; // fixes if you don't have tailwind installed.
 
 export default function App() {
   return <EmojiSelector />;
