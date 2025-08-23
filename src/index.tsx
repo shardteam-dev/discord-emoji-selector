@@ -289,7 +289,7 @@ export default function EmojiSelector({
         }
       : undefined,
     ...rawemojis,
-  ];
+  ].filter((a) => a !== undefined);
 
   const navHeight = showNav ? Math.floor(height / 7) : 0;
   const id = Math.random().toString(36).substring(2, 15);
@@ -400,12 +400,7 @@ export default function EmojiSelector({
                 );
               })}
             </div>
-            {showFooter && (
-              <Footer
-                id={id}
-                firstEmoji={(emojis[0] ? emojis[0] : emojis[1]).emojis[0]}
-              />
-            )}
+            {showFooter && <Footer id={id} firstEmoji={emojis[0].emojis[0]} />}
           </div>
         </div>
       </div>
